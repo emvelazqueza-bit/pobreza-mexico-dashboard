@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>10 años de medición de pobreza en México — 2008-2018</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://www.gstatic.com/charts/loader.js"></script>
+<style>
+  :root {
+    --paper: #F7F5F1;
+    --paper-raised: #FFFFFF;
+    --ink: #1C1B19;
+    --ink-soft: #54514B;
+    --rule: #D8D3C8;
+    --azul: #1D3557;
+    --azul-soft: #3D5A80;
+    --terracota: #BC6C44;
+    --oliva: #5B7553;
+    --folio: #A39E91;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'IBM Plex Sans', sans-serif;
+    line-height: 1.55;
+  }
+
+  .page {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 24px 120px;
+  }
+
+  /* ---------- MASTHEAD ---------- */
+  .masthead {
+    padding: 64px 0 40px;
+    border-bottom: 3px solid var(--ink);
+    margin-bottom: 48px;
+  }
+
+  .masthead .eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--azul);
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 28px;
+  }
+
+  .masthead h1 {
+    font-family: 'Source Serif 4', serif;
+    font-weight: 700;
+    font-size: clamp(34px, 5vw, 52px);
+    line-height: 1.08;
+    letter-spacing: -0.01em;
+    max-width: 720px;
+  }
+
+  .masthead .subhead {
+    margin-top: 16px;
+    font-size: 17px;
+    color: var(--ink-soft);
+    max-width: 560px;
+  }
+
+  .masthead .source-note {
+    margin-top: 28px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--folio);
+    letter-spacing: 0.02em;
+  }
+
+  /* ---------- TOC ---------- */
+  .toc {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    margin-bottom: 64px;
+  }
+
+  .toc a {
+    background: var(--paper-raised);
+    padding: 16px 10px;
+    text-decoration: none;
+    color: var(--ink);
+    font-size: 12px;
+    line-height: 1.3;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    transition: background 0.15s ease;
+  }
+
+  .toc a:hover { background: #EFEBE2; }
+
+  .toc .toc-num {
+    font-family: 'IBM Plex Mono', monospace;
+    color: var(--azul);
+    font-size: 11px;
+    font-weight: 500;
+  }
+
+  /* ---------- SECTION ---------- */
+  .section {
+    margin-bottom: 96px;
+    scroll-margin-top: 24px;
+  }
+
+  .section-head {
+    display: flex;
+    gap: 20px;
+    align-items: baseline;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 16px;
+    margin-bottom: 8px;
+  }
+
+  .section-folio {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: var(--folio);
+    white-space: nowrap;
+  }
+
+  .section-head h2 {
+    font-family: 'Source Serif 4', serif;
+    font-weight: 600;
+    font-size: 26px;
+    color: var(--ink);
+  }
+
+  .finding {
+    font-family: 'Source Serif 4', serif;
+    font-style: italic;
+    font-size: 18px;
+    color: var(--azul);
+    margin: 20px 0 24px;
+    line-height: 1.5;
+    max-width: 680px;
+    border-left: 3px solid var(--azul);
+    padding-left: 18px;
+  }
+
+  .chart-frame {
+    background: var(--paper-raised);
+    border: 1px solid var(--rule);
+    padding: 28px 20px 16px;
+    margin-bottom: 20px;
+  }
+
+  .chart-frame .chart-div {
+    width: 100%;
+    height: 360px;
+  }
+
+  .chart-caption {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--folio);
+    padding: 12px 4px 0;
+    border-top: 1px dashed var(--rule);
+    margin-top: 8px;
+  }
+
+  /* ---------- DATA TABLE ---------- */
+  details.data-table {
+    margin-top: 14px;
+  }
+
+  details.data-table summary {
+    cursor: pointer;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--azul-soft);
+    padding: 8px 0;
+    letter-spacing: 0.02em;
+  }
+
+  details.data-table summary:hover { color: var(--azul); }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin-top: 8px;
+  }
+
+  table caption { display: none; }
+
+  th, td {
+    text-align: left;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  th {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--ink-soft);
+    background: #EFEBE2;
+  }
+
+  td.num { font-family: 'IBM Plex Mono', monospace; text-align: right; }
+  tr.highlight-up td { color: var(--terracota); font-weight: 500; }
+  tr.highlight-down td { color: var(--oliva); font-weight: 500; }
+
+  /* ---------- FOOTER ---------- */
+  .colophon {
+    border-top: 3px solid var(--ink);
+    margin-top: 80px;
+    padding-top: 24px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--folio);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  @media (max-width: 600px) {
+    .toc { grid-template-columns: repeat(2, 1fr); }
+    .masthead { padding-top: 40px; }
+    .chart-frame .chart-div { height: 300px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+
+  a:focus-visible, summary:focus-visible {
+    outline: 2px solid var(--azul);
+    outline-offset: 2px;
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <header class="masthead">
+    <div class="eyebrow">
+      <span>CONEVAL · Comunicado de prensa No. 10</span>
+      <span>5 de agosto de 2019</span>
+    </div>
+    <h1>10 años de medición de pobreza en México</h1>
+    <p class="subhead">Cinco lecturas de la serie 2008-2018: el panorama nacional y las brechas que el promedio nacional no muestra.</p>
+    <p class="source-note">FUENTE — Estimaciones del CONEVAL con base en el MCS-ENIGH 2008, 2010, 2012, 2014 y el MEC del MCS-ENIGH 2016 y 2018.</p>
+  </header>
+
+  <nav class="toc" aria-label="Índice de gráficos">
+    <a href="#g1"><span class="toc-num">01</span>Evolución nacional</a>
+    <a href="#g2"><span class="toc-num">02</span>Carencias sociales</a>
+    <a href="#g3"><span class="toc-num">03</span>Entidades, extremos</a>
+    <a href="#g4"><span class="toc-num">04</span>Rural vs. urbano</a>
+    <a href="#g5"><span class="toc-num">05</span>Brecha étnica</a>
+  </nav>
+
+  <!-- ======================= SECCIÓN 1 ======================= -->
+  <section class="section" id="g1">
+    <div class="section-head">
+      <span class="section-folio">01 / 05</span>
+      <h2>Evolución de la pobreza, 2008-2018</h2>
+    </div>
+    <p class="finding">El porcentaje bajó de 44.4% a 41.9%, pero el número de personas en pobreza subió de 49.5 a 52.4 millones: México creció más rápido que su propia reducción de pobreza relativa.</p>
+
+    <div class="chart-frame">
+      <div id="chart1" class="chart-div" role="img" aria-label="Gráfico de líneas: evolución de pobreza y pobreza extrema en porcentaje, 2008 a 2018"></div>
+      <p class="chart-caption">Tipo: LineChart — series de tiempo, eje compartido en puntos porcentuales.</p>
+    </div>
+
+    <details class="data-table">
+      <summary>Ver tabla de datos ▾</summary>
+      <table>
+        <caption>Evolución de pobreza y pobreza extrema, 2008-2018</caption>
+        <thead>
+          <tr><th>Año</th><th>Pobreza (%)</th><th>Pobreza (millones)</th><th>Pobreza extrema (%)</th><th>Pobreza extrema (millones)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>2008</td><td class="num">44.4</td><td class="num">49.5</td><td class="num">11.0</td><td class="num">12.3</td></tr>
+          <tr><td>2010</td><td class="num">46.1</td><td class="num">52.8</td><td class="num">11.3</td><td class="num">13.0</td></tr>
+          <tr><td>2012</td><td class="num">45.5</td><td class="num">53.3</td><td class="num">9.8</td><td class="num">11.5</td></tr>
+          <tr><td>2014</td><td class="num">46.2</td><td class="num">55.3</td><td class="num">9.5</td><td class="num">11.4</td></tr>
+          <tr><td>2016</td><td class="num">43.6</td><td class="num">53.4</td><td class="num">7.6</td><td class="num">9.4</td></tr>
+          <tr><td>2018</td><td class="num">41.9</td><td class="num">52.4</td><td class="num">7.4</td><td class="num">9.3</td></tr>
+        </tbody>
+      </table>
+    </details>
+  </section>
+
+  <!-- ======================= SECCIÓN 2 ======================= -->
+  <section class="section" id="g2">
+    <div class="section-head">
+      <span class="section-folio">02 / 05</span>
+      <h2>Carencias sociales por tipo, 2008 vs. 2018</h2>
+    </div>
+    <p class="finding">El acceso a salud cayó 22.2 puntos — la mejora más grande de la década. La alimentación apenas se movió 1.3 puntos: la carencia más resistente al cambio.</p>
+
+    <div class="chart-frame">
+      <div id="chart2" class="chart-div" role="img" aria-label="Gráfico de barras horizontales: seis carencias sociales comparando 2008 contra 2018"></div>
+      <p class="chart-caption">Tipo: BarChart horizontal — categorías con etiquetas largas, comparación de dos años por categoría.</p>
+    </div>
+
+    <details class="data-table">
+      <summary>Ver tabla de datos ▾</summary>
+      <table>
+        <caption>Carencias sociales, 2008 vs 2018</caption>
+        <thead>
+          <tr><th>Carencia</th><th>2008 (%)</th><th>2018 (%)</th><th>Cambio (p.p.)</th></tr>
+        </thead>
+        <tbody>
+          <tr class="highlight-down"><td>Acceso a servicios de salud</td><td class="num">38.4</td><td class="num">16.2</td><td class="num">-22.2</td></tr>
+          <tr><td>Acceso a seguridad social</td><td class="num">65.0</td><td class="num">57.3</td><td class="num">-7.7</td></tr>
+          <tr><td>Calidad y espacios de vivienda</td><td class="num">17.7</td><td class="num">11.1</td><td class="num">-6.6</td></tr>
+          <tr><td>Rezago educativo</td><td class="num">21.9</td><td class="num">16.9</td><td class="num">-5.0</td></tr>
+          <tr><td>Servicios básicos en vivienda</td><td class="num">22.9</td><td class="num">19.8</td><td class="num">-3.1</td></tr>
+          <tr class="highlight-up"><td>Acceso a la alimentación</td><td class="num">21.7</td><td class="num">20.4</td><td class="num">-1.3</td></tr>
+        </tbody>
+      </table>
+    </details>
+  </section>
+
+  <!-- ======================= SECCIÓN 3 ======================= -->
+  <section class="section" id="g3">
+    <div class="section-head">
+      <span class="section-folio">03 / 05</span>
+      <h2>Entidades federativas: mayores cambios, 2008-2018</h2>
+    </div>
+    <p class="finding">Mientras Aguascalientes, Hidalgo y Tlaxcala redujeron pobreza más de 11 puntos, Veracruz la incrementó 10.6 puntos — la trayectoria nacional esconde direcciones opuestas dentro del mismo país.</p>
+
+    <div class="chart-frame">
+      <div id="chart3" class="chart-div" role="img" aria-label="Gráfico de barras horizontales con color: cambio en puntos porcentuales de pobreza por entidad federativa, verde para mejora y terracota para deterioro"></div>
+      <p class="chart-caption">Tipo: BarChart horizontal con color condicional — dirección del cambio codificada por color (verde = mejora, terracota = deterioro).</p>
+    </div>
+
+    <details class="data-table">
+      <summary>Ver tabla de datos ▾</summary>
+      <table>
+        <caption>Entidades con mayor cambio en pobreza, 2008-2018</caption>
+        <thead>
+          <tr><th>Entidad</th><th>2008 (%)</th><th>2018 (%)</th><th>Cambio (p.p.)</th><th>Categoría</th></tr>
+        </thead>
+        <tbody>
+          <tr class="highlight-down"><td>Aguascalientes</td><td class="num">37.6</td><td class="num">26.2</td><td class="num">-11.4</td><td>Mayor mejora</td></tr>
+          <tr class="highlight-down"><td>Hidalgo</td><td class="num">55.2</td><td class="num">43.8</td><td class="num">-11.4</td><td>Mayor mejora</td></tr>
+          <tr class="highlight-down"><td>Tlaxcala</td><td class="num">59.6</td><td class="num">48.4</td><td class="num">-11.2</td><td>Mayor mejora</td></tr>
+          <tr><td>Chiapas</td><td class="num">77.0</td><td class="num">76.4</td><td class="num">-0.6</td><td>Más pobre (referencia)</td></tr>
+          <tr class="highlight-up"><td>Colima</td><td class="num">27.4</td><td class="num">30.9</td><td class="num">+3.5</td><td>Mayor deterioro</td></tr>
+          <tr class="highlight-up"><td>Oaxaca</td><td class="num">61.8</td><td class="num">66.4</td><td class="num">+4.6</td><td>Mayor deterioro</td></tr>
+          <tr class="highlight-up"><td>Veracruz</td><td class="num">51.2</td><td class="num">61.8</td><td class="num">+10.6</td><td>Mayor deterioro</td></tr>
+        </tbody>
+      </table>
+    </details>
+  </section>
+
+  <!-- ======================= SECCIÓN 4 ======================= -->
+  <section class="section" id="g4">
+    <div class="section-head">
+      <span class="section-folio">04 / 05</span>
+      <h2>Brecha rural-urbana, 2008 vs. 2018</h2>
+    </div>
+    <p class="finding">La pobreza rural bajó 7.2 puntos frente a 1.3 en zonas urbanas — la brecha se acortó, pero en 2018 seguía siendo 17.7 puntos más alta en el campo.</p>
+
+    <div class="chart-frame">
+      <div id="chart4" class="chart-div" role="img" aria-label="Gráfico de columnas: porcentaje de pobreza en zonas rurales y urbanas, 2008 contra 2018"></div>
+      <p class="chart-caption">Tipo: ColumnChart agrupado — dos categorías, dos años, comparación directa de magnitud.</p>
+    </div>
+
+    <details class="data-table">
+      <summary>Ver tabla de datos ▾</summary>
+      <table>
+        <caption>Pobreza rural vs urbana, 2008-2018</caption>
+        <thead>
+          <tr><th>Zona</th><th>2008 (%)</th><th>2018 (%)</th><th>Reducción (p.p.)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Rural</td><td class="num">62.5</td><td class="num">55.3</td><td class="num">-7.2</td></tr>
+          <tr><td>Urbana</td><td class="num">38.9</td><td class="num">37.6</td><td class="num">-1.3</td></tr>
+        </tbody>
+      </table>
+    </details>
+  </section>
+
+  <!-- ======================= SECCIÓN 5 ======================= -->
+  <section class="section" id="g5">
+    <div class="section-head">
+      <span class="section-folio">05 / 05</span>
+      <h2>Brecha étnica y territorial interseccionada</h2>
+    </div>
+    <p class="finding">Las mujeres indígenas en zonas rurales no mejoraron en la década — de 83.0% a 84.3%, un leve aumento — mientras el grupo menos vulnerable mejoró ligeramente. El promedio nacional invisibiliza esta polarización.</p>
+
+    <div class="chart-frame">
+      <div id="chart5" class="chart-div" role="img" aria-label="Gráfico de columnas: comparación de pobreza entre mujeres indígenas rurales, hombres no indígenas urbanos, población indígena general y población no indígena general, 2008 contra 2018"></div>
+      <p class="chart-caption">Tipo: ColumnChart agrupado — cuatro grupos poblacionales, eje fijo 0-100% para que la distancia entre barras sea comparable a simple vista.</p>
+    </div>
+
+    <details class="data-table">
+      <summary>Ver tabla de datos ▾</summary>
+      <table>
+        <caption>Brecha étnica y de género interseccionada, 2008-2018</caption>
+        <thead>
+          <tr><th>Grupo</th><th>2008 (%)</th><th>2018 (%)</th><th>Cambio (p.p.)</th></tr>
+        </thead>
+        <tbody>
+          <tr class="highlight-up"><td>Mujeres indígenas en zonas rurales</td><td class="num">83.0</td><td class="num">84.3</td><td class="num">+1.3</td></tr>
+          <tr><td>Hombres no indígenas en zonas urbanas</td><td class="num">37.0</td><td class="num">35.8</td><td class="num">-1.2</td></tr>
+          <tr><td>Población hablante de lengua indígena</td><td class="num">76.0</td><td class="num">74.9</td><td class="num">-1.1</td></tr>
+          <tr><td>Población no indígena</td><td class="num">41.4</td><td class="num">39.4</td><td class="num">-2.0</td></tr>
+        </tbody>
+      </table>
+    </details>
+  </section>
+
+  <footer class="colophon">
+    <span>Datos: CONEVAL, MCS-ENIGH 2008-2018</span>
+    <span>Visualización: Google Charts (gráfico interactivo)</span>
+    <span>Comunicado original: www.coneval.org.mx</span>
+  </footer>
+
+</div>
+
+<script>
+  google.charts.load('current', {packages: ['corechart']});
+  google.charts.setOnLoadCallback(drawAllCharts);
+
+  // Paleta compartida — derivada del token system del documento
+  const PALETTE = {
+    azul: '#1D3557',
+    azulSoft: '#3D5A80',
+    terracota: '#BC6C44',
+    oliva: '#5B7553',
+    rule: '#D8D3C8',
+    ink: '#1C1B19',
+    inkSoft: '#54514B'
+  };
+
+  const BASE_FONT = 'IBM Plex Sans';
+
+  function baseOptions(overrides) {
+    const defaults = {
+      fontName: BASE_FONT,
+      fontSize: 12,
+      backgroundColor: 'transparent',
+      chartArea: { left: 140, top: 24, right: 24, bottom: 48, width: '100%', height: '100%' },
+      legend: { position: 'top', alignment: 'start', textStyle: { color: PALETTE.inkSoft, fontSize: 12 } },
+      hAxis: { textStyle: { color: PALETTE.inkSoft }, gridlines: { color: PALETTE.rule }, baselineColor: PALETTE.rule },
+      vAxis: { textStyle: { color: PALETTE.inkSoft }, gridlines: { color: PALETTE.rule }, baselineColor: PALETTE.rule },
+      tooltip: { textStyle: { fontName: BASE_FONT, fontSize: 12 } }
+    };
+    return Object.assign({}, defaults, overrides);
+  }
+
+  function drawAllCharts() {
+    drawChart1();
+    drawChart2();
+    drawChart3();
+    drawChart4();
+    drawChart5();
+    // Redibujar en resize para que el SVG de Google Charts se reajuste (no es responsive por sí solo)
+    let resizeTimer;
+    window.addEventListener('resize', function () {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(drawAllCharts, 200);
+    });
+  }
+
+  // ---------- 1. LineChart: evolución nacional ----------
+  function drawChart1() {
+    const data = google.visualization.arrayToDataTable([
+      ['Año', 'Pobreza (%)', 'Pobreza extrema (%)'],
+      ['2008', 44.4, 11.0],
+      ['2010', 46.1, 11.3],
+      ['2012', 45.5, 9.8],
+      ['2014', 46.2, 9.5],
+      ['2016', 43.6, 7.6],
+      ['2018', 41.9, 7.4],
+    ]);
+
+    const options = baseOptions({
+      colors: [PALETTE.azul, PALETTE.terracota],
+      chartArea: { left: 50, top: 30, right: 24, bottom: 40, width: '100%', height: '100%' },
+      vAxis: { textStyle: { color: PALETTE.inkSoft }, gridlines: { color: PALETTE.rule }, baselineColor: PALETTE.rule, format: "#'%'", viewWindow: { min: 0 } },
+      curveType: 'function',
+      pointSize: 6,
+      lineWidth: 3,
+    });
+
+    const chart = new google.visualization.LineChart(document.getElementById('chart1'));
+    chart.draw(data, options);
+  }
+
+  // ---------- 2. BarChart horizontal: carencias sociales ----------
+  function drawChart2() {
+    const data = google.visualization.arrayToDataTable([
+      ['Carencia', '2008', '2018'],
+      ['Acceso a salud', 38.4, 16.2],
+      ['Seguridad social', 65.0, 57.3],
+      ['Vivienda (calidad)', 17.7, 11.1],
+      ['Rezago educativo', 21.9, 16.9],
+      ['Servicios en vivienda', 22.9, 19.8],
+      ['Alimentación', 21.7, 20.4],
+    ]);
+
+    const options = baseOptions({
+      colors: [PALETTE.azulSoft, PALETTE.azul],
+      hAxis: { textStyle: { color: PALETTE.inkSoft }, gridlines: { color: PALETTE.rule }, baselineColor: PALETTE.rule, format: "#'%'", viewWindow: { min: 0 } },
+      chartArea: { left: 160, top: 24, right: 24, bottom: 40, width: '100%', height: '100%' },
+    });
+
+    const chart = new google.visualization.BarChart(document.getElementById('chart2'));
+    chart.draw(data, options);
+  }
+
+  // ---------- 3. BarChart horizontal con color condicional: entidades ----------
+  function drawChart3() {
+    const rows = [
+      ['Aguascalientes', -11.4, PALETTE.oliva],
+      ['Hidalgo', -11.4, PALETTE.oliva],
+      ['Tlaxcala', -11.2, PALETTE.oliva],
+      ['Chiapas (ref.)', -0.6, PALETTE.inkSoft],
+      ['Colima', 3.5, PALETTE.terracota],
+      ['Oaxaca', 4.6, PALETTE.terracota],
+      ['Veracruz', 10.6, PALETTE.terracota],
+    ];
+
+    const data = new google.visualization.DataTable();
+    data.addColumn('string', 'Entidad');
+    data.addColumn('number', 'Cambio (p.p.)');
+    data.addColumn({ type: 'string', role: 'style' });
+    rows.forEach(r => data.addRow(r));
+
+    const options = baseOptions({
+      legend: { position: 'none' },
+      hAxis: { textStyle: { color: PALETTE.inkSoft }, gridlines: { color: PALETTE.rule }, baselineColor: PALETTE.ink, format: "+#.#;-#.#" },
+      chartArea: { left: 140, top: 16, right: 24, bottom: 40, width: '100%', height: '100%' },
+    });
+
+    const chart = new google.visualization.BarChart(document.getElementById('chart3'));
+    chart.draw(data, options);
+  }
+
+  // ---------- 4. ColumnChart: rural vs urbano ----------
+  function drawChart4() {
+    const data = google.visualization.arrayToDataTable([
+      ['Zona', '2008', '2018'],
+      ['Rural', 62.5, 55.3],
+      ['Urbana', 38.9, 37.6],
+    ]);
+
+    const options = baseOptions({
+      colors: [PALETTE.terracota, PALETTE.azul],
+      vAxis: { textStyle: { color: PALETTE.inkSoft }, gridlines: { color: PALETTE.rule }, baselineColor: PALETTE.rule, format: "#'%'", viewWindow: { min: 0, max: 70 } },
+      chartArea: { left: 50, top: 24, right: 24, bottom: 40, width: '100%', height: '100%' },
+      bar: { groupWidth: '50%' },
+    });
+
+    const chart = new google.visualization.ColumnChart(document.getElementById('chart4'));
+    chart.draw(data, options);
+  }
+
+  // ---------- 5. ColumnChart: brecha étnica interseccionada ----------
+  function drawChart5() {
+    const data = google.visualization.arrayToDataTable([
+      ['Grupo', '2008', '2018'],
+      ['Mujeres indígenas\nrurales', 83.0, 84.3],
+      ['Hombres no indígenas\nurbanos', 37.0, 35.8],
+      ['Indígena\n(general)', 76.0, 74.9],
+      ['No indígena\n(general)', 41.4, 39.4],
+    ]);
+
+    const options = baseOptions({
+      colors: [PALETTE.terracota, PALETTE.azul],
+      vAxis: { textStyle: { color: PALETTE.inkSoft }, gridlines: { color: PALETTE.rule }, baselineColor: PALETTE.rule, format: "#'%'", viewWindow: { min: 0, max: 100 } },
+      hAxis: { textStyle: { color: PALETTE.inkSoft, fontSize: 11 } },
+      chartArea: { left: 50, top: 24, right: 24, bottom: 56, width: '100%', height: '100%' },
+      bar: { groupWidth: '60%' },
+    });
+
+    const chart = new google.visualization.ColumnChart(document.getElementById('chart5'));
+    chart.draw(data, options);
+  }
+</script>
+
+</body>
+</html>
